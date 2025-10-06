@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import type { Product, Store } from '../types';
-import { suggestRecipe } from '../services/geminiService';
+import { suggestRecipe, isGeminiConfigured } from '../services/geminiService';
 import RecipeModal from './RecipeModal';
 import { SparklesIcon } from './icons';
 
@@ -19,6 +18,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, stores }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSuggestRecipe = async () => {
+    if (!isGeminiConfigured) return; // Segurança extra
     setIsModalOpen(true);
     setIsLoading(true);
     const result = await suggestRecipe(product.name);
@@ -56,7 +56,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, stores }) => {
             </div>
             <button
                 onClick={handleSuggestRecipe}
-                className="w-full bg-brand-light-green text-white font-semibold py-2 px-4 rounded-md hover:bg-brand-green transition-colors duration-300 flex items-center justify-center gap-2"
+                disabled={!isGeminiConfigured}
+                className="w-full bg-brand-light-green text-white font-semibold py-2 px-4 rounded-md hover:bg-brand-green transition-colors duration-300 flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                title={!isGeminiConfigured ? "Funcionalidade de receita desabilitada. API Key não configurada." : "Sugerir Receita"}
               >
                 <SparklesIcon className="w-5 h-5" />
                 Sugerir Receita

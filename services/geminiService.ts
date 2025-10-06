@@ -1,20 +1,18 @@
-
 import { GoogleGenAI } from "@google/genai";
 
-// Ensure the API key is set in your environment variables
 const API_KEY = process.env.API_KEY;
 
-if (!API_KEY) {
-  // In a real app, you might want to handle this more gracefully.
-  // For this context, we'll throw an error if the key is missing.
-  console.error("API_KEY environment variable not set.");
+// Exportamos uma flag para que a UI saiba se o serviço está configurado
+export const isGeminiConfigured = !!API_KEY;
+
+let ai: GoogleGenAI | null = null;
+if (isGeminiConfigured) {
+  ai = new GoogleGenAI({ apiKey: API_KEY });
 }
 
-const ai = new GoogleGenAI({ apiKey: API_KEY! });
-
 export const suggestRecipe = async (productName: string): Promise<string> => {
-  if (!API_KEY) {
-    return "A chave da API do Gemini não foi configurada. Não é possível sugerir receitas.";
+  if (!ai) {
+    return "A funcionalidade de sugestão de receitas não está configurada. O administrador do site precisa configurar uma chave de API do Google Gemini.";
   }
 
   try {
