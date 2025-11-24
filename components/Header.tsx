@@ -42,6 +42,14 @@ const Header: React.FC<HeaderProps> = ({ activePage, navigateTo, isLoggedIn, onL
               Ver Ofertas
             </a>
           </li>
+          <li>
+            <a
+              onClick={() => navigateTo('locations')}
+              className={`${navItemClasses} ${activePage === 'locations' ? activeClasses : inactiveClasses}`}
+            >
+              Lojas
+            </a>
+          </li>
           {isLoggedIn ? (
             <>
               <li>

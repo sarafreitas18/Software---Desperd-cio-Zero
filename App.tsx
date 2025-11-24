@@ -4,11 +4,12 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import BrowsePage from './components/BrowsePage';
+import LocationsPage from './components/LocationsPage';
 import BusinessDashboard from './components/BusinessDashboard';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 
-export type Page = 'home' | 'browse' | 'dashboard' | 'login' | 'register';
+export type Page = 'home' | 'browse' | 'locations' | 'dashboard' | 'login' | 'register';
 
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState<Page>('home');
@@ -40,6 +41,8 @@ const App: React.FC = () => {
         return <HomePage navigateTo={navigateTo} />;
       case 'browse':
         return <BrowsePage />;
+      case 'locations':
+        return <LocationsPage />;
       case 'dashboard':
         // A página de negócios agora é o dashboard
         return <BusinessDashboard />;
